@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Why Scala?</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style type="text/css">
+            @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+            @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+            @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+            body { font-family: 'Droid Serif'; }
+            h1, h2, h3 {
+                font-family: 'Yanone Kaffeesatz';
+                font-weight: normal;
+            }
+            .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+        </style>
+    </head>
+    <body>
+<textarea id="source">
+
+class: center, middle
+
+# Why Scala?
+
+By Matt Wittmann
+
+---
+
+# What is [Scala](http://www.scala-lang.org/)?
+
+* Mixed paradigm
+    * Functional
+    * Object oriented
+* Compiles To
+    * Java byte codes
+    * JavaScript ([Scala.js](http://www.scala-js.org/))
+* Statically typed
+    * With local type inferencing
+* Designed by [Martin Odersky](http://lampwww.epfl.ch/~odersky/) at the EPFL
+* Commercial backing from [Typesafe](http://www.typesafe.com/)
+
+---
+
+# Scala Ecosystem
+
+* Java interoperability
+* [Akka](http://akka.io/) for concurrent programming with the actor model
+* [Play Framework](https://www.playframework.com/) for Web applications
+* [sbt](http://www.scala-sbt.org/) for builds and dependency management
+    * Uses Maven and Ivy repositories
+* [scalaz](http://typelevel.org/projects/scalaz/) for advanced functional programming using category theory
+* For relational databases
+    * [Slick](http://slick.typesafe.com/), functional-relational mapping
+    * [Anorm](https://www.playframework.com/documentation/2.3.x/ScalaAnorm)
+    * [ScalikeJDBC](http://scalikejdbc.org/)
+* Testing
+    * [ScalaTest](http://www.scalatest.org/) for unit, behavior-driven, and functional testing
+    * [ScalaCheck](http://scalacheck.org/) for generative property-based testing
+
+---
+
+# Popular Applications of Scala
+
+* Distributed and high-concurrency applications (Akka)
+* Big-data processing (Apache Spark)
+* Non-blocking RESTful web services ([Spray](http://spray.io/]) and Akka HTTP)
+
+---
+
+# Scala's Advantages
+
+* More concise syntax
+* Powerful language features
+* Ecosystem of libraries using modern techniques
+* Easier to write functional, immutable code
+* Powerful type system to catch more errors at compile time
+* Easier to write asynchronous, non-blocking code than in Java
+* Production ready (Twitter, Linked In, BBC, etc.)
+* Scales with you
+    * Infrastructure
+    * Learning
+
+---
+
+# Some Scala Language Features
+
+* First-class functions
+* Advanced, ML-style pattern matching (switches on steroids)
+* Local type inferencing
+* Mix-ins with traits (like interfaces with default behavior)
+* Implicit type converters (methods defined to convert between types and invoked automatically)
+* Implicit arguments
+* Partial functions
+* Partially applied functions and function currying
+* First-class n-tuples (e.g., pairs, triples)
+* “Everything is an expression”
+
+---
+
+class: center, middle
+
+# Comparison of Java with Scala
+
+---
+
+# JavaBean
+
+    public class MyBean {
+        private int myNumber;
+        private String myString;
+
+        public int getMyNumber() {
+            return myNumber;
+        }
+
+        public void setMyNumber(int myNumber) {
+            this.myNumber = myNumber;
+        }
+
+        public int getMyString() {
+            return myString;
+        }
+
+        public void setMyString(int myString) {
+            this.myString = myString;
+        }
+        // And equals, hashCode, and toString...
+    }
+
+---
+
+# Scala Case Class
+
+    case class MyBean(myNumber: Int, myString: String)
+
+* Instances of case classes are also immutable
+
+---
+
+# Transforming a collection in Java
+
+    public List&lt;Integer&gt; greaterThan1(List&lt;Integer&gt; list) {
+        List&lt;Integer&gt; result = new ArrayList&lt;Integer&gt;();
+
+        for (Integer number : list) {
+            if (number > 1) {
+                result.add(number);
+            }
+        }
+
+        return result;
+    }
+
+---
+
+# In Scala
+
+    def greaterThan1(list: Seq[Int]) = list.filter(_ > 1)
+
+---
+
+# Java Null Checks
+
+    public void doSomething(MyBean bean) {
+        String myProp = bean.getMyProperty();
+        // Possible NullPointerException
+    }
+
+---
+
+# Using Option in Scala
+
+    def doSomething(bean: Option[MyBean]): Unit = {
+        val myProp = bean.map(_.myProperty).getOrElse("DEFAULT")
+    }
+
+* The type system forces the developer to confront the possibility of bean being None
+  to access myProperty.
+
+---
+
+# Type Inferencing
+
+    val hundred = 100
+    // 100 is of type Int, so the compiler knows hundred is of type Int too
+    val hundred: Int = 100
+    // Explicit type declaration
+    def triple(x: Int) = x * 3
+    def triple(x: Int): Int = x * 3
+    // The return type of a function or method can generally be inferred,
+    // but it can be helpful to define the type anyway to enforce a contract
+
+---
+
+# Pattern Matching (Java Equivalent)
+
+    public String say(Object o) {
+        if (o instanceof String) {
+            if ("".equals(o)) {
+                return "Hello, O Unnamed One";
+            }
+            return (String) o;
+        }
+        if (o instanceof Integer) {
+            return ((Integer) o).toString();
+        }
+        return "Unknown to me";
+    }
+
+---
+
+# Scala Pattern Matching
+
+    def say(o: Any): String = o match {
+        case "" => "Hello, O Unnamed One"
+        case x: String => x
+        case x: Int => x.toString
+        case _ => "Unknown to me"
+    }
+
+---
+
+# Value Types
+
+* Value types add type safety without run-time overhead
+    * The type is erased at run-time in most circumstances)
+
+
+    case class AccountNumber(value: String) extends AnyVal
+
+    def findServersInAccount(account: AccountNumber) = {
+        // You're no longer passing around a raw string,
+        // which can help prevent accidentally passing the wrong string
+    }
+
+    </textarea>
+        <script src="https://gnab.github.io/remark/downloads/remark-0.10.2.min.js">
+        </script>
+        <script>
+            var slideshow = remark.create();
+        </script>
+    </body>
+</html>
