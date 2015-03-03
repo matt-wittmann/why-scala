@@ -68,7 +68,7 @@ By Matt Wittmann
 
 ---
 
-# Scala's Advantages
+# Scala&#8217;s Advantages
 
 * More concise syntax
 * Powerful language features
@@ -173,6 +173,7 @@ class: center, middle
 
     def doSomething(bean: Option[MyBean]): Unit = {
         val myProp = bean.map(_.myProperty).getOrElse("DEFAULT")
+        // Can continue safely
     }
 
 * The type system forces the developer to confront the possibility of bean being None
@@ -233,6 +234,20 @@ class: center, middle
         // You're no longer passing around a raw string,
         // which can help prevent accidentally passing the wrong string
     }
+
+---
+
+# Conclusion
+
+* Scala helps developers by
+    * Providing a more concise, powerful syntax
+    * Making it easier to deal with concurrency, functional programming, and other more modern paradigms and techniques
+    * Allowing greater type safety to catch errors earlier
+* Scala helps organizations by
+    * Scaling with its infrastructure and development team
+    * Leveraging Java legacy
+    * Enhancing developer productivity
+    * Being production ready, deployed successfully in well-known businesses
 
     </textarea>
         <script src="https://gnab.github.io/remark/downloads/remark-0.10.2.min.js">
